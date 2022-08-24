@@ -9,8 +9,11 @@ Morton Code and Z-Order Value is used interchangeably throughout the codebase an
 ## TODO
 
 [ ] Add a Decoder
+
 [ ] Support for encoding/interleaving 3 (and maybe more) input values
+
 [ ] Support for adding, subtracting and incrementing the Z-values
+
 [ ] Support for Ordering data by the Z-values (aka Z-Ordering)
 
 ## References
