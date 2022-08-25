@@ -38,12 +38,41 @@ pub fn morton2DEncode(comptime T: type, comptime a: T, comptime b: T) DoubleSize
     return z_value;
 }
 
+pub fn morton2DDecode(comptime T: type, mortonNumber: T) struct{first: HalfSize(T), second: HalfSize(T)} {
+    var x: T = 0;
+    var y: T = 0;
+    const one: HalfSize(T) = 1;
+    var index : HalfSize(HalfSize(T)) = 0;
+    var n : HalfSize(T) = @bitSizeOf(T);
+    while (index < n) : (index += 1) {
+        const mask: T = one << index;
+        const num_masked : T = mortonNumber & mask;
+        if (index % 2 == 0) {
+            // even index, we must push this bit to x
+            x |= num_masked;
+        } else {
+            // push this bit to y
+            y |= num_masked;
+        }
+    }
+    return .{
+        .first = @truncate(HalfSize(T), x),
+        .second = @truncate(HalfSize(T), y),
+    };
+}
+
 test "bit size of function test" {
     try testing.expect(@bitSizeOf(u8) == 8);
 }
 
 test "generic morton encode interleaving bits wikipedia example" {
     try testing.expect(morton2DEncode(u8, 19, 47) == 2479);
+}
+
+test "generic morton decoder" {
+    const decoded = morton2DDecode(u16, 2479);
+    try testing.expect(decoded.first == 19);
+    try testing.expect(decoded.second == 47);
 }
 
 test "double the bits of any integer type" {
