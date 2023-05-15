@@ -1,5 +1,6 @@
 # Zig-Morton
 
+Hey there!
 A Tiny library for doing encoding/decoding of Morton Codes (also known as Z-Order Curves).
 
 **Definition** A Morton Code or a Z-Order Value is the value produced by doing bitwise interleaving of the input values.
